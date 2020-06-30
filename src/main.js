@@ -1,17 +1,17 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import {LeftOutlined,RightOutlined,UpOutlined,DownOutlined,CaretRightOutlined,PauseOutlined } from '@ant-design/icons';
+import {CaretRightOutlined,PauseOutlined,ArrowUpOutlined,ArrowDownOutlined,ArrowLeftOutlined,ArrowRightOutlined} from '@ant-design/icons';
 import { Button } from 'antd';
 
 class Main extends React.Component {
 
     state = {
-
+        isStart : false
     }
 
     componentDidMount() {
 
-        document.addEventListener('keyup', (event) => {
+        document.addEventListener('keydown', (event) => {
             switch(event.code) {
                 case "KeyS":
                 case "ArrowDown":
@@ -35,6 +35,17 @@ class Main extends React.Component {
           });
     }
 
+    handleStart(status){
+        if(status === "start"){
+            console.log("The game is started");
+        }else if (status === "pause"){  
+            console.log("The game is paused");
+        }
+        this.setState(prevState => ({
+            isStart : !prevState.isStart,
+          }));
+    }
+
     handleArrowUp(){
         console.log("up button");
     }
@@ -52,13 +63,16 @@ class Main extends React.Component {
 
         return (
             <div>
-                <UpOutlined style={{ fontSize: '40px', color: '#08c' }} onClick={() => this.handleArrowUp()}/>
-                <DownOutlined style={{ fontSize: '40px', color: '#08c' }} onClick={() => this.handleArrowDown()}/>
-                <LeftOutlined style={{ fontSize: '40px', color: '#08c' }} onClick={() => this.handleArrowLeft()}/>
-                <RightOutlined style={{ fontSize: '40px', color: '#08c' }} onClick={() => this.handleArrowRight()}/>
-            
-                <Button type="primary" icon={<CaretRightOutlined />} size='large'>Start</Button>
-                <Button type="disabled" icon={<PauseOutlined  />} size='large'>Pause</Button>
+                <Button shape="circle" size="large" icon={<ArrowUpOutlined />} onClick={() => this.handleArrowUp()}/>
+                <Button shape="circle" size="large" icon={<ArrowDownOutlined />} onClick={() => this.handleArrowDown()}/>
+                <Button shape="circle" size="large" icon={<ArrowLeftOutlined />} onClick={() => this.handleArrowLeft()}/>
+                <Button shape="circle" size="large" icon={<ArrowRightOutlined />} onClick={() => this.handleArrowRight()}/>
+
+                {
+                this.state.isStart ? <Button type="danger" icon={<PauseOutlined  />} size='large' onClick={() => this.handleStart("pause")}>Pause</Button> 
+                : <Button type="primary" icon={<CaretRightOutlined />} size='large' onClick={() => this.handleStart("start")}>Start</Button>
+                }
+                
             </div>
         );
     }
