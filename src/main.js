@@ -186,7 +186,7 @@ class Main extends React.Component {
                             <td><Button shape="circle" size="large" icon={<ArrowDownOutlined />} onClick={() => this.sendMessage({actionType : "mousedown",action : "down"})}/></td>
                             <td></td>
                             <td></td>
-                            <td><Input style={{width : "100px"}} defaultValue={30} value={this.state.frameRate} suffix="FPS"/></td>
+                            <td><Input style={{width : "100px"}} defaultValue={30} value={this.state.frameRate} onPressEnter={(event) => this.onFPSChange(event.target.value)} suffix="FPS"/></td>
                             <td><Button shape="circle" size="large" icon={<UpOutlined />} onClick={() => this.handleFPS("faster")}/>
                             <Button shape="circle" size="large" icon={<DownOutlined />} onClick={() => this.handleFPS("slower")}/></td>
                         </tr>
