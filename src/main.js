@@ -3,9 +3,12 @@ import 'antd/dist/antd.css';
 import {CaretRightOutlined,PauseOutlined,ArrowUpOutlined,ArrowDownOutlined,ArrowLeftOutlined,
     ArrowRightOutlined, ReloadOutlined, UpOutlined, DownOutlined, StopOutlined,
     CloudUploadOutlined,CloudDownloadOutlined} from '@ant-design/icons';
-import { Button,message, InputNumber, Input } from 'antd';
+import { Button,message, Input, Spin } from 'antd';
 import {browserName,osName,browserVersion,osVersion} from 'react-device-detect';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import { v4 as uuidv4 } from 'uuid';
+import Header from './components/header';
+import Footer from './components/footer';
 
 const client = new W3CWebSocket('wss://test.nicknissen.com:5000');
 
@@ -17,12 +20,19 @@ class Main extends React.Component {
         frameId : 0,
         frameRate : 30,
         src : "",
+        loading : true
     }
 
     componentDidMount() {
 
         client.onopen = () => {
             console.log('WebSocket Client Connected');
+            this.setState(({
+                loading : false
+            }))
+            this.sendMessage({
+                userId : uuidv4()
+            })
         };
 
         client.onmessage = (message) => {
@@ -144,7 +154,6 @@ class Main extends React.Component {
     }
 
     onFPSChange(speed){
-        console.log(speed);
         this.setState(({
             frameRate : speed
         }))
@@ -157,9 +166,15 @@ class Main extends React.Component {
 
         return (
             <div>
-                <img style={{marginLeft : "30%",marginTop: "5%"}}src={this.state.src} alt="frame" width="700" height="600" />
+            <div>
+                <Header />
+            </div>
+            <div>
+                {this.state.loading ? <Spin style={{marginLeft : "45%"}} tip="The game is still loading, please wait ..." /> : 
+                    <img style={{marginLeft : "30%"}} src={this.state.src} alt="frame" width="700" height="600" />
+                }
 
-                <table style={{border: "none",marginLeft: "33%",marginTop : "5%" }} cellSpacing="0" cellPadding="10">
+                <table style={{border: "none",marginLeft: "33%"}} cellSpacing="0" cellPadding="6">
                     <tbody>
                         <tr>
                             <td></td>
@@ -178,20 +193,26 @@ class Main extends React.Component {
                             <td></td>
                             <td><Button shape="circle" size="large" icon={<ArrowRightOutlined />} onClick={() => this.sendMessage({actionType : "mousedown" , action : "right"})}/></td>
                             <td></td>
-                            <td><Button style={{backgroundColor: "#faad14", color : "white", borderColor : "#faad14"}} icon={<CloudUploadOutlined />} type="primary" size='large' onClick={() => this.handleStart("trainOffline")}>Online</Button></td>
-                            <td><Button type="primary" size='large' icon={<CloudDownloadOutlined />} onClick={() => this.handleStart("trainOnline")}>Offline</Button></td>
+                            <td><Button style={{backgroundColor: "#faad14", color : "white", borderColor : "#faad14"}} icon={<CloudUploadOutlined />} type="primary" size='large' onClick={() => this.handleStart("trainOffline")}>Train Online</Button></td>
+                            <td><Button type="primary" size='large' icon={<CloudDownloadOutlined />} onClick={() => this.handleStart("trainOnline")}>Train Offline</Button></td>
                         </tr>
                         <tr>
                             <td></td>
                             <td><Button shape="circle" size="large" icon={<ArrowDownOutlined />} onClick={() => this.sendMessage({actionType : "mousedown",action : "down"})}/></td>
                             <td></td>
                             <td></td>
-                            <td><Input style={{width : "100px"}} defaultValue={30} value={this.state.frameRate} onPressEnter={(event) => this.onFPSChange(event.target.value)} suffix="FPS"/></td>
-                            <td><Button shape="circle" size="large" icon={<UpOutlined />} onClick={() => this.handleFPS("faster")}/>
-                            <Button shape="circle" size="large" icon={<DownOutlined />} onClick={() => this.handleFPS("slower")}/></td>
+                            <td><Input style={{width : "100px"}} defaultValue={30} value={this.state.frameRate} suffix="FPS"/></td>
+                            <td>
+                                <Button shape="circle" size="large" icon={<UpOutlined />} onClick={() => this.handleFPS("faster")}/>
+                                <Button shape="circle" size="large" icon={<DownOutlined />} onClick={() => this.handleFPS("slower")}/>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div>
+                <Footer />
+            </div>
             </div>
         );
     }
