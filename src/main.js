@@ -168,14 +168,14 @@ class Main extends React.Component {
             <div>
                 <Header />
                 {this.state.loading ?
-                <div style={{height: "600px",width : "700px",borderStyle : "inset", marginLeft : "30%"}}>
-                    <Spin style={{marginLeft : "35%",marginTop : "35%"}} tip="The game is still loading, please wait ..." /> 
+                <div style={{height: "600px",width : "700px", border : "solid #1890ff" ,borderRadius: "10px", display: "flex",justifyContent: "center",alignItems : "center", margin: "auto"}}>
+                    <Spin style={{fontSize : "18px",}} size = "large" tip="The game is still loading, please wait ..." /> 
                 </div>
                 : 
-                    <img style={{marginLeft : "30%", borderStyle : "inset"}} src={this.state.src} alt="frame" width="700" height="600" />
+                    <img style={{margin : "auto", borderStyle : "inset"}} src={this.state.src} alt="frame" width="700" height="600" />
                 }
 
-                <div style={{border : "solid",borderRadius: "10px",marginTop : "20px",width : "700px", marginLeft : "30%"}}>
+                <div style={{border : "solid",borderRadius: "10px",marginTop : "20px",width : "700px",marginLeft : "auto",marginRight : "auto"}}>
                     <table style={{border: "none"}} cellSpacing="0" cellPadding="6">
                         <tbody>
                             <tr>
