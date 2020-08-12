@@ -166,12 +166,13 @@ class Main extends React.Component {
 
         return (
             <div>
-            <div>
                 <Header />
-            </div>
-            <div>
-                {this.state.loading ? <Spin style={{marginLeft : "45%"}} tip="The game is still loading, please wait ..." /> : 
-                    <img style={{marginLeft : "30%"}} src={this.state.src} alt="frame" width="700" height="600" />
+                {this.state.loading ?
+                <div style={{height: "600px",width : "700px",borderStyle : "inset", marginLeft : "30%"}}>
+                    <Spin style={{marginLeft : "35%",marginTop : "35%"}} tip="The game is still loading, please wait ..." /> 
+                </div>
+                : 
+                    <img style={{marginLeft : "30%", borderStyle : "inset"}} src={this.state.src} alt="frame" width="700" height="600" />
                 }
 
                 <table style={{border: "none",marginLeft: "33%"}} cellSpacing="0" cellPadding="6">
@@ -209,11 +210,9 @@ class Main extends React.Component {
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div>
                 <Footer />
             </div>
-            </div>
+                
         );
     }
 }
