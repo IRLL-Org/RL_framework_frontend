@@ -175,41 +175,43 @@ class Main extends React.Component {
                     <img style={{marginLeft : "30%", borderStyle : "inset"}} src={this.state.src} alt="frame" width="700" height="600" />
                 }
 
-                <table style={{border: "none",marginLeft: "33%"}} cellSpacing="0" cellPadding="6">
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td><Button shape="circle" size="large" icon={<ArrowUpOutlined />} onClick={() => this.sendMessage({actionType : "mousedonw",action : "up"})}/></td>
-                            <td></td>
-                            <td><p></p></td>
-                            <td>{
-                            this.state.isStart ? <Button type="danger" icon={<PauseOutlined  />} size='large' onClick={() => this.handleStart("pause")}>Pause</Button> 
-                            : <Button type="primary"  icon={<CaretRightOutlined />} size='large' onClick={() => this.handleStart("start")}>Start</Button>
-                            }</td>
-                            <td><Button type="danger" icon={<StopOutlined  />} size='large' onClick={() => this.handleStart("stop")}>Stop</Button></td>
-                            <td><Button type="primary" style={{backgroundColor: "#52c41a", color : "white", borderColor : "#52c41a"}} icon={<ReloadOutlined />} size='large' onClick={() => this.handleStart("reset")}>Reset</Button></td>
-                        </tr>
-                        <tr>
-                            <td><Button shape="circle" size="large" icon={<ArrowLeftOutlined />} onClick={() => this.sendMessage({actionType : "mousedown", action :"left"})}/></td>
-                            <td></td>
-                            <td><Button shape="circle" size="large" icon={<ArrowRightOutlined />} onClick={() => this.sendMessage({actionType : "mousedown" , action : "right"})}/></td>
-                            <td></td>
-                            <td><Button style={{backgroundColor: "#faad14", color : "white", borderColor : "#faad14"}} icon={<CloudUploadOutlined />} type="primary" size='large' onClick={() => this.handleStart("trainOffline")}>Train Online</Button></td>
-                            <td><Button type="primary" size='large' icon={<CloudDownloadOutlined />} onClick={() => this.handleStart("trainOnline")}>Train Offline</Button></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><Button shape="circle" size="large" icon={<ArrowDownOutlined />} onClick={() => this.sendMessage({actionType : "mousedown",action : "down"})}/></td>
-                            <td></td>
-                            <td></td>
-                            <td><Input style={{width : "100px"}} defaultValue={30} value={this.state.frameRate} suffix="FPS"/></td>
-                            <td>
-                                <Button shape="circle" size="large" icon={<UpOutlined />} onClick={() => this.handleFPS("faster")}/>
-                                <Button shape="circle" size="large" icon={<DownOutlined />} onClick={() => this.handleFPS("slower")}/>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div style={{border : "solid",borderRadius: "10px",marginTop : "20px",width : "700px", marginLeft : "30%"}}>
+                    <table style={{border: "none"}} cellSpacing="0" cellPadding="6">
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td><Button shape="round" size="large" icon={<ArrowUpOutlined />} onClick={() => this.sendMessage({actionType : "mousedonw",action : "up"})}/></td>
+                                <td></td>
+                                <td><p></p></td>
+                                <td>{
+                                this.state.isStart ? <Button type="danger" icon={<PauseOutlined  />} size='large' onClick={() => this.handleStart("pause")}>Pause</Button> 
+                                : <Button type="primary"  icon={<CaretRightOutlined />} size='large' onClick={() => this.handleStart("start")}>Start</Button>
+                                }</td>
+                                <td><Button type="danger" icon={<StopOutlined  />} size='large' onClick={() => this.handleStart("stop")}>Stop</Button></td>
+                                <td><Button type="primary" style={{backgroundColor: "#52c41a", color : "white", borderColor : "#52c41a"}} icon={<ReloadOutlined />} size='large' onClick={() => this.handleStart("reset")}>Reset</Button></td>
+                            </tr>
+                            <tr>
+                                <td><Button shape="round" size="large" icon={<ArrowLeftOutlined />} onClick={() => this.sendMessage({actionType : "mousedown", action :"left"})}/></td>
+                                <td></td>
+                                <td><Button shape="round" size="large" icon={<ArrowRightOutlined />} onClick={() => this.sendMessage({actionType : "mousedown" , action : "right"})}/></td>
+                                <td></td>
+                                <td><Button style={{backgroundColor: "#faad14", color : "white", borderColor : "#faad14"}} icon={<CloudUploadOutlined />} type="primary" size='large' onClick={() => this.handleStart("trainOffline")}>Train Online</Button></td>
+                                <td><Button type="primary" size='large' icon={<CloudDownloadOutlined />} onClick={() => this.handleStart("trainOnline")}>Train Offline</Button></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><Button shape="round" size="large" icon={<ArrowDownOutlined />} onClick={() => this.sendMessage({actionType : "mousedown",action : "down"})}/></td>
+                                <td></td>
+                                <td></td>
+                                <td><Input style={{width : "100px"}} defaultValue={30} value={this.state.frameRate} suffix="FPS"/></td>
+                                <td>
+                                    <Button shape="round" size="large" icon={<UpOutlined />} onClick={() => this.handleFPS("faster")}/>
+                                    <Button shape="round" size="large" icon={<DownOutlined />} onClick={() => this.handleFPS("slower")}/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <Footer />
             </div>
                 
