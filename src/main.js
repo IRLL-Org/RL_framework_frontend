@@ -95,13 +95,13 @@ class Main extends React.Component {
               }
           });
 
-        document.addEventListener('mousedown',(event) => {
-            this.sendMessage({
-                eventType : "mousedown",
-                xCoord : event.offsetX,
-                yCoord : event.offsetY
-            })
-        })
+        //document.addEventListener('mousedown',(event) => {
+        //    this.sendMessage({
+        //        eventType : "mousedown",
+        //        xCoord : event.offsetX,
+        //        yCoord : event.offsetY
+        //    })
+        //})
 
         if(document.hasFocus){
             console.log("The window is in focus");
@@ -111,6 +111,10 @@ class Main extends React.Component {
     }
 
     sendMessage = (data) => {
+        if(this.state.loading){
+            message.error("Please wait the connection to be established first!")
+            return;
+        }
         const allData = {
             ...data,
             frameCount : this.state.frameCount,
@@ -167,13 +171,12 @@ class Main extends React.Component {
         return (
             <div>
                 <Header />
-                {this.state.loading ?
-                <div style={{height: "600px",width : "700px", border : "solid #1890ff" ,borderRadius: "10px", display: "flex",justifyContent: "center",alignItems : "center", margin: "auto"}}>
+                <div style={{height: "605px",width : "705px", border : "solid #1890ff" ,borderRadius: "10px", display: "flex",justifyContent: "center",alignItems : "center", margin: "auto"}}>
+                    {this.state.loading || !this.state.src ?
                     <Spin style={{fontSize : "18px",}} size = "large" tip="The game is still loading, please wait ..." /> 
+                    : <img style={{borderRadius : " 10px"}} src={this.state.src} alt="frame" width="700px" height="600px" />
+                    }
                 </div>
-                : 
-                    <img style={{margin : "auto", borderStyle : "inset"}} src={this.state.src} alt="frame" width="700" height="600" />
-                }
 
                 <div style={{border : "solid",borderRadius: "10px",marginTop : "20px",width : "700px",marginLeft : "auto",marginRight : "auto"}}>
                     <table style={{border: "none"}} cellSpacing="0" cellPadding="6">
