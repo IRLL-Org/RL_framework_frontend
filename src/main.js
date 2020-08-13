@@ -95,13 +95,13 @@ class Main extends React.Component {
               }
           });
 
-        //document.addEventListener('mousedown',(event) => {
-        //    this.sendMessage({
-        //        eventType : "mousedown",
-        //        xCoord : event.offsetX,
-        //        yCoord : event.offsetY
-        //    })
-        //})
+        document.addEventListener('mousedown',(event) => {
+            this.sendMessage({
+                eventType : "mousedown",
+                xCoord : event.offsetX,
+                yCoord : event.offsetY
+            })
+        })
 
         if(document.hasFocus){
             console.log("The window is in focus");
