@@ -18,9 +18,10 @@ class Forum extends React.Component{
                 this.props.action(e);}} >
    
                 <div style={{textAlign: 'center'}}>
-                    <div style={{display : "inline-block",textAlign: 'left'}}>
+                    <div name="inside" style={{display : "inline-block",textAlign: 'left',overflow : "auto",height : "650px"}}>
                     {ReactHtmlParser(this.state.content)}
-                    <Button type="primary" htmlType="submit" >Submit</Button>
+                    <br />
+                    <Button style={{marginLeft : "45%"}} type="primary" htmlType="submit" >Submit</Button>
                     </div>
                 </div>
             </form>
