@@ -1,5 +1,6 @@
 import React from 'react';
 import "antd/dist/antd.css";
+import './main.css';
 import axios from 'axios';
 import {Spin} from 'antd';
 import Header from './components/header';
@@ -69,9 +70,9 @@ class Main extends React.Component{
     }
 
     render(){
-        const preGame =   <div style={{display: "flex",justifyContent: "center",alignItems : "center", margin: "auto"}}>
+        const preGame =   <div className="forumContainer">
                             {this.state.isLoading ? 
-                            <Spin style={{fontSize : "18px",}} size = "large" tip="Moving to next step, please wait ..." /> :
+                            <Spin className="Loader" size = "large" tip="Moving to next step, please wait ..." /> :
                             <Forum content={this.state.content} action={this.handleSubmit}/> 
                             }
                         </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
+import './game.css';
 import {CaretRightOutlined,PauseOutlined,ArrowUpOutlined,ArrowDownOutlined,ArrowLeftOutlined,
     ArrowRightOutlined, ReloadOutlined, UpOutlined, DownOutlined, StopOutlined,
     CloudUploadOutlined,CloudDownloadOutlined} from '@ant-design/icons';
@@ -119,15 +120,15 @@ class Game extends React.Component{
     render() {
         return (
             <div>
-                <div style={{height: "605px",width : "705px", border : "solid #1890ff" ,borderRadius: "10px", display: "flex",justifyContent: "center",alignItems : "center", margin: "auto"}}>
+                <div className="gameWindow">
                     {this.state.loading || !this.state.src ?
-                    <Spin style={{fontSize : "18px",}} size = "large" tip="The game is still loading, please wait ..." /> 
-                    : <img style={{borderRadius : " 10px"}} src={this.state.src} alt="frame" width="700px" height="600px" />
+                    <Spin className="Loader" size = "large" tip="The game is still loading, please wait ..." /> 
+                    : <img className="gameContent" src={this.state.src} alt="frame" width="700px" height="600px" />
                     }
                 </div>
 
-                <div style={{border : "solid",borderRadius: "10px",marginTop : "20px",width : "700px",marginLeft : "auto",marginRight : "auto"}}>
-                    <table style={{border: "none"}} cellSpacing="0" cellPadding="6">
+                <div className="controlPanel">
+                    <table className="panelContainer" cellSpacing="0" cellPadding="6">
                         <tbody>
                             <tr>
                                 <td></td>
@@ -139,14 +140,14 @@ class Game extends React.Component{
                                 : <Button type="primary"  icon={<CaretRightOutlined />} size='large' onClick={() => this.handleStart("start")}>Start</Button>
                                 }</td>
                                 <td><Button type="danger" icon={<StopOutlined  />} size='large' onClick={() => this.handleStart("stop")}>Stop</Button></td>
-                                <td><Button type="primary" style={{backgroundColor: "#52c41a", color : "white", borderColor : "#52c41a"}} icon={<ReloadOutlined />} size='large' onClick={() => this.handleStart("reset")}>Reset</Button></td>
+                                <td><Button type="primary" className="resetButton"  icon={<ReloadOutlined />} size='large' onClick={() => this.handleStart("reset")}>Reset</Button></td>
                             </tr>
                             <tr>
                                 <td><Button shape="round" size="large" icon={<ArrowLeftOutlined />} onClick={() => this.sendMessage({actionType : "mousedown", action :"left"})}/></td>
                                 <td></td>
                                 <td><Button shape="round" size="large" icon={<ArrowRightOutlined />} onClick={() => this.sendMessage({actionType : "mousedown" , action : "right"})}/></td>
                                 <td></td>
-                                <td><Button style={{backgroundColor: "#faad14", color : "white", borderColor : "#faad14"}} icon={<CloudUploadOutlined />} type="primary" size='large' onClick={() => this.handleStart("trainOffline")}>Train Online</Button></td>
+                                <td><Button className="onlineButton" icon={<CloudUploadOutlined />} type="primary" size='large' onClick={() => this.handleStart("trainOffline")}>Train Online</Button></td>
                                 <td><Button type="primary" size='large' icon={<CloudDownloadOutlined />} onClick={() => this.handleStart("trainOnline")}>Train Offline</Button></td>
                             </tr>
                             <tr>
@@ -154,7 +155,7 @@ class Game extends React.Component{
                                 <td><Button shape="round" size="large" icon={<ArrowDownOutlined />} onClick={() => this.sendMessage({actionType : "mousedown",action : "down"})}/></td>
                                 <td></td>
                                 <td></td>
-                                <td><Input style={{width : "100px"}} defaultValue={30} value={this.state.frameRate} suffix="FPS"/></td>
+                                <td><Input className="fpsInput" defaultValue={30} value={this.state.frameRate} suffix="FPS"/></td>
                                 <td>
                                     <Button shape="round" size="large" icon={<UpOutlined />} onClick={() => this.handleFPS("faster")}/>
                                     <Button shape="round" size="large" icon={<DownOutlined />} onClick={() => this.handleFPS("slower")}/>
