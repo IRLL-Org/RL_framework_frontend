@@ -4,7 +4,7 @@ import './game.css';
 import {CaretRightOutlined,PauseOutlined,ArrowUpOutlined,ArrowDownOutlined,ArrowLeftOutlined,
     ArrowRightOutlined, ReloadOutlined, UpOutlined, DownOutlined, StopOutlined,
     CloudUploadOutlined,CloudDownloadOutlined} from '@ant-design/icons';
-import { Button,message, Input, Spin } from 'antd';
+import { Button,message, Input, Spin, Tooltip } from 'antd';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import {browserName,osName,browserVersion,osVersion} from 'react-device-detect';
 import getKeyInput from '../utils/getKeyInput';
@@ -132,7 +132,11 @@ class Game extends React.Component{
                         <tbody>
                             <tr>
                                 <td></td>
-                                <td><Button shape="round" size="large" icon={<ArrowUpOutlined />} onClick={() => this.sendMessage({actionType : "mousedonw",action : "up"})}/></td>
+                                <td>
+                                <Tooltip placement="left" title="Move Up" arrowPointAtCenter>
+                                    <Button shape="round" size="large" icon={<ArrowUpOutlined />} onClick={() => this.sendMessage({actionType : "mousedonw",action : "up"})}/>
+                                </Tooltip>   
+                                </td>
                                 <td></td>
                                 <td><p></p></td>
                                 <td>{
@@ -143,22 +147,38 @@ class Game extends React.Component{
                                 <td><Button type="primary" className="resetButton"  icon={<ReloadOutlined />} size='large' onClick={() => this.handleStart("reset")}>Reset</Button></td>
                             </tr>
                             <tr>
-                                <td><Button shape="round" size="large" icon={<ArrowLeftOutlined />} onClick={() => this.sendMessage({actionType : "mousedown", action :"left"})}/></td>
+                                <td>
+                                <Tooltip placement="bottom" title="Move Left" arrowPointAtCenter>
+                                    <Button shape="round" size="large" icon={<ArrowLeftOutlined />} onClick={() => this.sendMessage({actionType : "mousedown", action :"left"})}/>
+                                </Tooltip>
+                                </td>
                                 <td></td>
-                                <td><Button shape="round" size="large" icon={<ArrowRightOutlined />} onClick={() => this.sendMessage({actionType : "mousedown" , action : "right"})}/></td>
+                                <td>
+                                <Tooltip placement="top" title="Move Right" arrowPointAtCenter>
+                                    <Button shape="round" size="large" icon={<ArrowRightOutlined />} onClick={() => this.sendMessage({actionType : "mousedown" , action : "right"})}/>
+                                </Tooltip>
+                                </td>
                                 <td></td>
                                 <td><Button className="onlineButton" icon={<CloudUploadOutlined />} type="primary" size='large' onClick={() => this.handleStart("trainOffline")}>Train Online</Button></td>
-                                <td><Button type="primary" size='large' icon={<CloudDownloadOutlined />} onClick={() => this.handleStart("trainOnline")}>Train Offline</Button></td>
+                                <td><Button className="offlineButton" type="primary" size='large' icon={<CloudDownloadOutlined />} onClick={() => this.handleStart("trainOnline")}>Train Offline</Button></td>
                             </tr>
                             <tr>
                                 <td></td>
-                                <td><Button shape="round" size="large" icon={<ArrowDownOutlined />} onClick={() => this.sendMessage({actionType : "mousedown",action : "down"})}/></td>
+                                <td>
+                                <Tooltip placement="right" title="Move Dowm" arrowPointAtCenter>
+                                    <Button shape="round" size="large" icon={<ArrowDownOutlined />} onClick={() => this.sendMessage({actionType : "mousedown",action : "down"})}/>
+                                </Tooltip>
+                                    </td>
                                 <td></td>
                                 <td></td>
                                 <td><Input className="fpsInput" defaultValue={30} value={this.state.frameRate} suffix="FPS"/></td>
                                 <td>
-                                    <Button shape="round" size="large" icon={<UpOutlined />} onClick={() => this.handleFPS("faster")}/>
-                                    <Button shape="round" size="large" icon={<DownOutlined />} onClick={() => this.handleFPS("slower")}/>
+                                    <Tooltip placement="bottom" title="Increase the FPS" arrowPointAtCenter>
+                                        <Button shape="round" size="large" icon={<UpOutlined />} onClick={() => this.handleFPS("faster")}/>
+                                    </Tooltip>
+                                    <Tooltip placement="bottom" title="Decrease the FPS" arrowPointAtCenter>
+                                        <Button shape="round" size="large" icon={<DownOutlined />} onClick={() => this.handleFPS("slower")}/>
+                                    </Tooltip>
                                 </td>
                             </tr>
                         </tbody>

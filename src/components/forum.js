@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button} from 'antd';
+import {Button, Tooltip} from 'antd';
 import "antd/dist/antd.css";
 import './forum.css';
 import ReactHtmlParser from 'react-html-parser';
@@ -22,7 +22,9 @@ class Forum extends React.Component{
                     <div className="overflowContainer">
                     {ReactHtmlParser(this.state.content)}
                     <br />
-                    <Button className="submitButton" type="primary" htmlType="submit" >Submit</Button>
+                    <Tooltip placement="top" title="Submit the form and navigate to next step" arrowPointAtCenter>
+                        <Button className="submitButton" shape="round" size="large" type="primary" htmlType="submit" >Submit</Button>
+                    </Tooltip>
                     </div>
                 </div>
             </form>
