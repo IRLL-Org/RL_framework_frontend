@@ -1,20 +1,19 @@
 import React from 'react';
 import "antd/dist/antd.css";
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
 import {Spin} from 'antd';
 import Header from './components/header';
 import Footer from './components/footer';
 import Forum from './components/forum';
 import Game from './components/game';
-import {RLAPI} from './utils/constants';
+import {RLAPI, PROJECT_ID, USER_ID} from './utils/constants';
 
 class Main extends React.Component{
 
     state = {
         content : "",
-        userId : uuidv4(),
-        projectId : 'demo_1.0.0',
+        userId : USER_ID,
+        projectId : PROJECT_ID,
         isLoading : true,
         isGame : false
     }
@@ -78,7 +77,7 @@ class Main extends React.Component{
                         </div>
                             
                             
-        const inGame = <Game projectId={this.state.projectId} userId={this.state.userId} />
+        const inGame = <Game />
         return (
             <div>
                 <Header />

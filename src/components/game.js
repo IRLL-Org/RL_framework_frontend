@@ -7,7 +7,7 @@ import { Button,message, Input, Spin } from 'antd';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import {browserName,osName,browserVersion,osVersion} from 'react-device-detect';
 import getKeyInput from '../utils/getKeyInput';
-import {WS_URL} from '../utils/constants';
+import {WS_URL, USER_ID} from '../utils/constants';
 
 const client = new W3CWebSocket(WS_URL);
 
@@ -20,10 +20,6 @@ class Game extends React.Component{
         frameRate : 30,
         src : "",
         isLoading : true,
-
-        //state from props
-        projectId : this.props.projectId,
-        userId : this.props.userId,
     }
 
     componentDidMount() {
@@ -33,7 +29,7 @@ class Game extends React.Component{
                 isLoading : false
             }))
             this.sendMessage({
-                userId : this.state.userId
+                userId : USER_ID
             })
         };
 
@@ -51,7 +47,10 @@ class Game extends React.Component{
         }
 
         document.addEventListener('keydown', (event) => {
-            getKeyInput(event.code);
+            if([37, 38, 39, 40].indexOf(event.keyCode) > -1) {
+                event.preventDefault();
+            }
+            this.sendMessage(getKeyInput(event.code));
         })
 
         document.addEventListener('mousedown',(event) => {
@@ -86,13 +85,16 @@ class Game extends React.Component{
                 browserVersion : browserVersion,
 
             })
-        }else if (status === "stop" || status === "pause"){
             this.setState(prevState => ({
-                isStart : !prevState.isStart,
-              }));
+                isStart : !prevState.isStart
+            }))
+        }else if (status === "stop" || status === "pause"){
             this.sendMessage({
                 command : status
             })   
+            this.setState(prevState => ({
+                isStart : !prevState.isStart,
+            }));
         }
         else{
             this.sendMessage({
