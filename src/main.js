@@ -77,12 +77,10 @@ class Main extends React.Component{
                             }
                         </div>
                             
-                            
-        const inGame = <Game />
         return (
             <div>
                 <Header />
-                {!this.state.isGame ? preGame : inGame}
+                {!this.state.isGame ? preGame : <Game />}
                 <Footer />
             </div>   
         )

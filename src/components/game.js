@@ -10,8 +10,6 @@ import {browserName,osName,browserVersion,osVersion} from 'react-device-detect';
 import getKeyInput from '../utils/getKeyInput';
 import {WS_URL, USER_ID} from '../utils/constants';
 
-const client = new W3CWebSocket(WS_URL);
-
 class Game extends React.Component{
     
     state = {
@@ -24,8 +22,16 @@ class Game extends React.Component{
     }
 
     componentDidMount() {
-        client.onopen = () => {
+        this.ws = new W3CWebSocket(WS_URL);
+        this.timer = setInterval(() => {
+            if (this.ws.readyState !== 1) {
+                this.ws = new W3CWebSocket(WS_URL);
+            }
+         }, 3000);
+
+        this.ws.onopen = () => {
             console.log('WebSocket Client Connected');
+            clearInterval(this.timer);
             this.setState(({
                 isLoading : false
             }))
@@ -34,7 +40,7 @@ class Game extends React.Component{
             })
         };
 
-        client.onmessage = (message) => {
+        this.ws.onmessage = (message) => {
             let frame = JSON.parse(message.data).frame;
             this.setState(prevState => ({
                 src : "data:image/jpeg;base64, " + frame,
@@ -43,7 +49,7 @@ class Game extends React.Component{
               }));
         };
 
-        client.onclose = () => {
+        this.ws.onclose = () => {
             console.log("WebSocket Client Closed");
         }
 
@@ -73,7 +79,7 @@ class Game extends React.Component{
             frameCount : this.state.frameCount,
             frameId : this.state.frameId
         }
-        client.send(JSON.stringify(allData));
+        this.ws.send(JSON.stringify(allData));
     }
 
     handleStart(status){
