@@ -4,7 +4,6 @@ import "antd/dist/antd.css";
 import './forum.css';
 import ReactHtmlParser from 'react-html-parser';
 
-
 class Forum extends React.Component{
 
     state = {

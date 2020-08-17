@@ -12,7 +12,7 @@ import {RLAPI, PROJECT_ID, USER_ID} from './utils/constants';
 class Main extends React.Component{
 
     state = {
-        content : "",
+        formContent : "",
         userId : USER_ID,
         projectId : PROJECT_ID,
         isLoading : true,
@@ -31,7 +31,7 @@ class Main extends React.Component{
             }
         }).then(res => {
             this.setState(({
-                content : res.data,
+                formContent : res.data,
                 isLoading : false
             }))
         })
@@ -60,7 +60,7 @@ class Main extends React.Component{
                 }))
             }else{
                 this.setState(({
-                    content : res.data,
+                    formContent : res.data,
                     isLoading : false
                 }))
             }
@@ -70,12 +70,12 @@ class Main extends React.Component{
     }
 
     render(){
-        const {isLoading,content,isGame} = this.state;
+        const {isLoading,formContent,isGame} = this.state;
 
         const preGame =   <div className="forumContainer">
                             {isLoading ? 
                             <Spin className="Loader" size = "large" tip="Moving to next step, please wait ..." /> :
-                            <Forum content={content} action={this.handleSubmit}/> 
+                            <Forum content={formContent} action={this.handleSubmit}/> 
                             }
                         </div>
                             
