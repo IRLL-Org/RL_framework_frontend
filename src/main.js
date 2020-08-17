@@ -70,17 +70,19 @@ class Main extends React.Component{
     }
 
     render(){
+        const {isLoading,content,isGame} = this.state;
+
         const preGame =   <div className="forumContainer">
-                            {this.state.isLoading ? 
+                            {isLoading ? 
                             <Spin className="Loader" size = "large" tip="Moving to next step, please wait ..." /> :
-                            <Forum content={this.state.content} action={this.handleSubmit}/> 
+                            <Forum content={content} action={this.handleSubmit}/> 
                             }
                         </div>
                             
         return (
             <div>
                 <Header />
-                {!this.state.isGame ? preGame : <Game />}
+                {!isGame ? preGame : <Game />}
                 <Footer />
             </div>   
         )

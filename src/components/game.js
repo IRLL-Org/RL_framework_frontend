@@ -17,21 +17,23 @@ class Game extends React.Component{
         frameCount : 0,
         frameId : 0,
         frameRate : 30,
-        src : "",
+        frameSrc : "",
         isLoading : true,
     }
 
     componentDidMount() {
-        this.ws = new W3CWebSocket(WS_URL);
+        this.websocket = new W3CWebSocket(WS_URL);
         this.timer = setInterval(() => {
-            if (this.ws.readyState !== 1) {
-                this.ws = new W3CWebSocket(WS_URL);
+            if (this.websocket.readyState !== 1) {
+                this.websocket = new W3CWebSocket(WS_URL);
             }
          }, 3000);
 
-        this.ws.onopen = () => {
+        this.websocket.onopen = () => {
             console.log('WebSocket Client Connected');
-            clearInterval(this.timer);
+            if(this.timer != null){
+                clearInterval(this.timer);
+            }
             this.setState(({
                 isLoading : false
             }))
@@ -40,16 +42,16 @@ class Game extends React.Component{
             })
         };
 
-        this.ws.onmessage = (message) => {
+        this.websocket.onmessage = (message) => {
             let frame = JSON.parse(message.data).frame;
             this.setState(prevState => ({
-                src : "data:image/jpeg;base64, " + frame,
+                frameSrc : "data:image/jpeg;base64, " + frame,
                 frameCount : prevState.frameCount + 1,
                 frameId : JSON.parse(message.data).frameId
               }));
         };
 
-        this.ws.onclose = () => {
+        this.websocket.onclose = () => {
             console.log("WebSocket Client Closed");
         }
 
@@ -79,7 +81,7 @@ class Game extends React.Component{
             frameCount : this.state.frameCount,
             frameId : this.state.frameId
         }
-        this.ws.send(JSON.stringify(allData));
+        this.websocket.send(JSON.stringify(allData));
     }
 
     handleStart(status){
@@ -124,12 +126,13 @@ class Game extends React.Component{
     }
 
     render() {
+        const {isLoading, frameSrc, isStart, frameRate} = this.state;
         return (
             <div>
                 <div className="gameWindow">
-                    {this.state.loading || !this.state.src ?
+                    {isLoading || !frameSrc ?
                     <Spin className="Loader" size = "large" tip="The game is still loading, please wait ..." /> 
-                    : <img className="gameContent" src={this.state.src} alt="frame" width="700px" height="600px" />
+                    : <img className="gameContent" src={frameSrc} alt="frame" width="700px" height="600px" />
                     }
                 </div>
 
@@ -146,7 +149,7 @@ class Game extends React.Component{
                                 <td></td>
                                 <td><p></p></td>
                                 <td>{
-                                this.state.isStart ? <Button type="danger" icon={<PauseOutlined  />} size='large' onClick={() => this.handleStart("pause")}>Pause</Button> 
+                                isStart ? <Button type="danger" icon={<PauseOutlined  />} size='large' onClick={() => this.handleStart("pause")}>Pause</Button> 
                                 : <Button type="primary"  icon={<CaretRightOutlined />} size='large' onClick={() => this.handleStart("start")}>Start</Button>
                                 }</td>
                                 <td><Button type="danger" icon={<StopOutlined  />} size='large' onClick={() => this.handleStart("stop")}>Stop</Button></td>
@@ -177,7 +180,7 @@ class Game extends React.Component{
                                     </td>
                                 <td></td>
                                 <td></td>
-                                <td><Input className="fpsInput" defaultValue={30} value={this.state.frameRate} suffix="FPS"/></td>
+                                <td><Input className="fpsInput" defaultValue={30} value={frameRate} suffix="FPS"/></td>
                                 <td>
                                     <Tooltip placement="bottom" title="Increase the FPS" arrowPointAtCenter>
                                         <Button shape="round" size="large" icon={<UpOutlined />} onClick={() => this.handleFPS("faster")}/>
