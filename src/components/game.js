@@ -19,6 +19,7 @@ class Game extends React.Component{
         frameRate : 30,
         frameSrc : "",
         isLoading : true,
+        isDone : false,
     }
 
     componentDidMount() {
@@ -43,12 +44,18 @@ class Game extends React.Component{
         };
 
         this.websocket.onmessage = (message) => {
-            let frame = JSON.parse(message.data).frame;
-            this.setState(prevState => ({
-                frameSrc : "data:image/jpeg;base64, " + frame,
-                frameCount : prevState.frameCount + 1,
-                frameId : JSON.parse(message.data).frameId
-              }));
+            if(message.data === "done"){
+                this.setState(({
+                    isDone : true
+                }))
+            }else{
+                let frame = JSON.parse(message.data).frame;
+                this.setState(prevState => ({
+                    frameSrc : "data:image/jpeg;base64, " + frame,
+                    frameCount : prevState.frameCount + 1,
+                    frameId : JSON.parse(message.data).frameId
+                }));
+            }
         };
 
         this.websocket.onclose = () => {

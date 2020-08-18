@@ -20,10 +20,10 @@ class Main extends React.Component{
     }
 
     componentDidMount(){
-        this.fetchData();
+        this.initialForm();
     }
 
-    fetchData = () => {
+    initialForm = () => {
         axios.get(RLAPI,{
             params : {
                 projectId : this.state.projectId,
@@ -72,7 +72,7 @@ class Main extends React.Component{
     render(){
         const {isLoading,formContent,isGame} = this.state;
 
-        const preGame =   <div className="forumContainer">
+        const preGame = <div className="forumContainer">
                             {isLoading ? 
                             <Spin className="Loader" size = "large" tip="Moving to next step, please wait ..." /> :
                             <Forum content={formContent} action={this.handleSubmit}/> 

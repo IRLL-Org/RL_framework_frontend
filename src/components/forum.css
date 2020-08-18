@@ -5,8 +5,6 @@
 .overflowContainer{
     text-align: left;
     display: inline-block;
-    overflow: auto;
-    height: 650px;
 } 
 
 .submitButton{
