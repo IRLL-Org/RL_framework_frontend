@@ -14,7 +14,7 @@ class Footer extends React.Component{
                         <p className="footerContent">
                         © 2020 The Intelligent Robot Learning Lab.<br />
                         We are proudly affiliated with the <a className="Link" href="https://ualberta.ca">University of Alberta</a>,
-                        <a className="Link" href="http://rlai.ualberta.ca/">RLAI</a>, and <a className="Link" href="https://amii.ca">Amii</a>.
+                        <a className="Link" href="http://rlai.ualberta.ca/"> RLAI</a>, and <a className="Link" href="https://amii.ca">Amii</a>.
                         </p>
                     </Col>
                     <Col flex={2}>
