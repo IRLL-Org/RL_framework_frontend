@@ -16,7 +16,7 @@ class Main extends React.Component{
         userId : USER_ID,
         projectId : PROJECT_ID,
         isLoading : true,
-        isGame : false
+        isGame : false,
     }
 
     componentDidMount(){
@@ -35,6 +35,13 @@ class Main extends React.Component{
                 isLoading : false
             }))
         })
+    }
+
+    gameEndHandler = () =>{
+        this.setState(({
+            isGame : false
+        }))
+        this.initialForm();
     }
 
     handleSubmit = (event) => {
@@ -82,7 +89,7 @@ class Main extends React.Component{
         return (
             <div>
                 <Header />
-                {!isGame ? preGame : <Game />}
+                {!isGame ? preGame : <Game action={this.gameEndHandler} />}
                 <Footer />
             </div>   
         )

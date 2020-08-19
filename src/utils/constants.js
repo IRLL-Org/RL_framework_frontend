@@ -6,4 +6,5 @@ export const PROJECT_ID = params.get('projectId');
 
 export const RLAPI = "https://api.irll.net/next";
 export const USER_ID = uuidv4();
+export const DNS_NAME = `${USER_ID}.irll.net`;
 export const WS_URL = `wss://${USER_ID}.irll.net:5000`;

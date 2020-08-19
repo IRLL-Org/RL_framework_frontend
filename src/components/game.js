@@ -8,7 +8,7 @@ import { Button,message, Input, Spin, Tooltip } from 'antd';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import {browserName,osName,browserVersion,osVersion} from 'react-device-detect';
 import getKeyInput from '../utils/getKeyInput';
-import {WS_URL, USER_ID} from '../utils/constants';
+import {WS_URL, DNS_NAME,USER_ID} from '../utils/constants';
 
 class Game extends React.Component{
     
@@ -19,22 +19,13 @@ class Game extends React.Component{
         frameRate : 30,
         frameSrc : "",
         isLoading : true,
-        isDone : false,
     }
 
     componentDidMount() {
-        this.websocket = new W3CWebSocket(WS_URL);
-        this.timer = setInterval(() => {
-            if (this.websocket.readyState !== 1) {
-                this.websocket = new W3CWebSocket(WS_URL);
-            }
-         }, 3000);
 
+        this.websocket = new W3CWebSocket(WS_URL);
         this.websocket.onopen = () => {
             console.log('WebSocket Client Connected');
-            if(this.timer != null){
-                clearInterval(this.timer);
-            }
             this.setState(({
                 isLoading : false
             }))
@@ -45,9 +36,7 @@ class Game extends React.Component{
 
         this.websocket.onmessage = (message) => {
             if(message.data === "done"){
-                this.setState(({
-                    isDone : true
-                }))
+                this.props.action();
             }else{
                 let frame = JSON.parse(message.data).frame;
                 this.setState(prevState => ({
