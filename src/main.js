@@ -17,6 +17,7 @@ class Main extends React.Component{
         projectId : PROJECT_ID,
         isLoading : true,
         isGame : false,
+        isWait : false,
     }
 
     componentDidMount(){
@@ -30,10 +31,17 @@ class Main extends React.Component{
                 userId : this.state.userId
             }
         }).then(res => {
-            this.setState(({
-                formContent : res.data,
-                isLoading : false
-            }))
+            if(res.data === "show_game_page"){
+                this.setState(({
+                    isGame : true,
+                    isWait : false
+                }))
+            }else if(res.data !== "wait"){
+                this.setState(({
+                    formContent : res.data,
+                    isLoading : false
+                }))
+            }
         })
     }
 
@@ -60,10 +68,20 @@ class Main extends React.Component{
                 userId : this.state.userId
             }
         }).then(res => {
-            if(res.data === "pre-game end"){
+            if(res.data === "show_game_page"){
                 this.setState(({
-                    isLoading : true,
-                    isGame : true
+                    isGame : true,
+                    isWait : false
+                }))
+            }else if(res.data === "wait"){
+                this.wait = setInterval(() => {
+                    if(!this.state.isGame){
+                        this.initialForm();
+                        console.log("re trying");
+                    }
+                },30000)
+                this.setState(({
+                    isWait : true
                 }))
             }else{
                 this.setState(({
@@ -76,12 +94,18 @@ class Main extends React.Component{
           });
     }
 
+    componentWillUnmount(){
+        clearTimeout(this.wait);
+    }
+
     render(){
-        const {isLoading,formContent,isGame} = this.state;
+        const {isLoading,formContent,isGame,isWait} = this.state;
 
         const preGame = <div className="forumContainer">
                             {isLoading ? 
-                            <Spin className="Loader" size = "large" tip="Moving to next step, please wait ..." /> :
+                            <Spin className="Loader" size = "large" tip={isWait ?  
+                                "Waitting for the robot to wake up, please wait ..." : "Loading next step, please wait ..."} 
+                            /> :
                             <Forum content={formContent} action={this.handleSubmit}/> 
                             }
                         </div>

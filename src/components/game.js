@@ -8,7 +8,7 @@ import { Button,message, Input, Spin, Tooltip } from 'antd';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import {browserName,osName,browserVersion,osVersion} from 'react-device-detect';
 import getKeyInput from '../utils/getKeyInput';
-import {WS_URL, DNS_NAME,USER_ID} from '../utils/constants';
+import {WS_URL,USER_ID} from '../utils/constants';
 
 class Game extends React.Component{
     
@@ -23,33 +23,35 @@ class Game extends React.Component{
 
     componentDidMount() {
 
-        this.websocket = new W3CWebSocket(WS_URL);
-        this.websocket.onopen = () => {
-            console.log('WebSocket Client Connected');
-            this.setState(({
-                isLoading : false
-            }))
-            this.sendMessage({
-                userId : USER_ID
-            })
-        };
+        this.timer = setTimeout(() => {
+            this.websocket = new W3CWebSocket(WS_URL);
+            this.websocket.onopen = () => {
+                console.log('WebSocket Client Connected');
+                this.setState(({
+                    isLoading : false
+                }))
+                this.sendMessage({
+                    userId : USER_ID
+                })
+            };
 
-        this.websocket.onmessage = (message) => {
-            if(message.data === "done"){
-                this.props.action();
-            }else{
-                let frame = JSON.parse(message.data).frame;
-                this.setState(prevState => ({
-                    frameSrc : "data:image/jpeg;base64, " + frame,
-                    frameCount : prevState.frameCount + 1,
-                    frameId : JSON.parse(message.data).frameId
-                }));
+            this.websocket.onmessage = (message) => {
+                if(message.data === "done"){
+                    this.props.action();
+                }else{
+                    let frame = JSON.parse(message.data).frame;
+                    this.setState(prevState => ({
+                        frameSrc : "data:image/jpeg;base64, " + frame,
+                        frameCount : prevState.frameCount + 1,
+                        frameId : JSON.parse(message.data).frameId
+                    }));
+                }
+            };
+
+            this.websocket.onclose = () => {
+                console.log("WebSocket Client Closed");
             }
-        };
-
-        this.websocket.onclose = () => {
-            console.log("WebSocket Client Closed");
-        }
+        }, 30000);
 
         document.addEventListener('keydown', (event) => {
             if([37, 38, 39, 40].indexOf(event.keyCode) > -1) {
@@ -65,6 +67,10 @@ class Game extends React.Component{
                 yCoord : event.offsetY
             })
         })
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timer);
     }
 
     sendMessage = (data) => {
