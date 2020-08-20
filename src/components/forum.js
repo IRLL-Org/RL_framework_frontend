@@ -6,11 +6,8 @@ import ReactHtmlParser from 'react-html-parser';
 
 class Forum extends React.Component{
 
-    state = {
-        content : this.props.content,
-    }
-
     render(){
+        const {isEnd, content} = this.props;
         return (
             <form onSubmit={(e) => {
                 e.preventDefault();
@@ -19,11 +16,13 @@ class Forum extends React.Component{
    
                 <div className="centerContainer">
                     <div className="overflowContainer">
-                    {ReactHtmlParser(this.state.content)}
+                    {ReactHtmlParser(content)}
                     <br />
+                    {!isEnd ? 
                     <Tooltip placement="top" title="Submit the form and navigate to next step" arrowPointAtCenter>
                         <Button className="submitButton" shape="round" size="large" type="primary" htmlType="submit" >Submit</Button>
-                    </Tooltip>
+                    </Tooltip> : null
+                    }
                     </div>
                 </div>
             </form>

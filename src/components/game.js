@@ -47,10 +47,6 @@ class Game extends React.Component{
                     }));
                 }
             };
-
-            this.websocket.onclose = () => {
-                console.log("WebSocket Client Closed");
-            }
         }, 30000);
 
         document.addEventListener('keydown', (event) => {
@@ -133,7 +129,7 @@ class Game extends React.Component{
             <div>
                 <div className="gameWindow">
                     {isLoading || !frameSrc ?
-                    <Spin className="Loader" size = "large" tip="The game is still loading, please wait ..." /> 
+                    <Spin className="Loader" size = "large" tip="The robot is about to start the game, please wait ..." /> 
                     : <img className="gameContent" src={frameSrc} alt="frame" width="700px" height="600px" />
                     }
                 </div>

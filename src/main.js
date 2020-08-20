@@ -18,6 +18,7 @@ class Main extends React.Component{
         isLoading : true,
         isGame : false,
         isWait : false,
+        isEnd : false,
     }
 
     componentDidMount(){
@@ -47,7 +48,8 @@ class Main extends React.Component{
 
     gameEndHandler = () =>{
         this.setState(({
-            isGame : false
+            isGame : false,
+            isEnd : true
         }))
         this.fetchFormData();
     }
@@ -97,7 +99,7 @@ class Main extends React.Component{
     }
 
     render(){
-        const {isLoading,formContent,isGame,isWait} = this.state;
+        const {isLoading,formContent,isGame,isWait, isEnd} = this.state;
 
         const preGame = <div className="forumContainer">
                             {isLoading ? 
@@ -105,7 +107,7 @@ class Main extends React.Component{
                                 "Waitting for the robot to wake up, please wait ..." :
                                 "Loading next step, please wait ..."} 
                             /> :
-                            <Forum content={formContent} action={this.handleSubmit}/> 
+                            <Forum content={formContent} action={this.handleSubmit} isEnd={isEnd}/> 
                             }
                         </div>
                             
