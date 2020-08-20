@@ -21,10 +21,10 @@ class Main extends React.Component{
     }
 
     componentDidMount(){
-        this.initialForm();
+        this.fetchFormData();
     }
 
-    initialForm = () => {
+    fetchFormData = () => {
         axios.get(RLAPI,{
             params : {
                 projectId : this.state.projectId,
@@ -71,13 +71,11 @@ class Main extends React.Component{
             if(res.data === "show_game_page"){
                 this.setState(({
                     isGame : true,
-                    isWait : false
                 }))
             }else if(res.data === "wait"){
                 this.wait = setInterval(() => {
                     if(!this.state.isGame){
-                        this.initialForm();
-                        console.log("re trying");
+                        this.fetchFormData();
                     }
                 },30000)
                 this.setState(({
