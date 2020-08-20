@@ -49,7 +49,7 @@ class Main extends React.Component{
         this.setState(({
             isGame : false
         }))
-        this.initialForm();
+        this.fetchFormData();
     }
 
     handleSubmit = (event) => {
@@ -102,7 +102,8 @@ class Main extends React.Component{
         const preGame = <div className="forumContainer">
                             {isLoading ? 
                             <Spin className="Loader" size = "large" tip={isWait ?  
-                                "Waitting for the robot to wake up, please wait ..." : "Loading next step, please wait ..."} 
+                                "Waitting for the robot to wake up, please wait ..." :
+                                "Loading next step, please wait ..."} 
                             /> :
                             <Forum content={formContent} action={this.handleSubmit}/> 
                             }

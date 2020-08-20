@@ -7,7 +7,7 @@ class Footer extends React.Component{
 
     render() {
         return (
-            <div>
+            <footer>
                 <Divider />
                 <Row>
                     <Col flex={3}>
@@ -22,7 +22,7 @@ class Footer extends React.Component{
                         <img className="AmiiLogo" src={process.env.PUBLIC_URL + '/amii.png'} alt="amii-logo" width="97" height="75"/>
                     </Col>
                 </Row>
-            </div>
+            </footer>
         )
     }
 }
