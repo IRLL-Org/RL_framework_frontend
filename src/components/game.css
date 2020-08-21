@@ -28,6 +28,7 @@
 
 .panelContainer{
     border : none;
+    margin-top: 10px;
 }
 
 .resetButton{

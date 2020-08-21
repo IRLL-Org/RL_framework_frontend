@@ -2,7 +2,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: auto;
+    margin-left: 5%;
+    margin-right : 5%;
     min-height: 700px;
 }
 
