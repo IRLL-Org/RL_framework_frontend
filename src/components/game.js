@@ -3,12 +3,12 @@ import 'antd/dist/antd.css';
 import './game.css';
 import {CaretRightOutlined,PauseOutlined,ArrowUpOutlined,ArrowDownOutlined,ArrowLeftOutlined,
     ArrowRightOutlined, ReloadOutlined, UpOutlined, DownOutlined, StopOutlined,
-    CloudUploadOutlined,CloudDownloadOutlined} from '@ant-design/icons';
-import { Button,message, Input, Spin, Tooltip } from 'antd';
+    CloudUploadOutlined,CloudDownloadOutlined, SendOutlined} from '@ant-design/icons';
+import { Button,message, Input, Spin, Tooltip, Modal } from 'antd';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import {browserName,osName,browserVersion,osVersion} from 'react-device-detect';
 import getKeyInput from '../utils/getKeyInput';
-import {WS_URL,USER_ID} from '../utils/constants';
+import {WS_URL,USER_ID, PROJECT_ID} from '../utils/constants';
 
 class Game extends React.Component{
     
@@ -19,6 +19,8 @@ class Game extends React.Component{
         frameRate : 30,
         frameSrc : "",
         isLoading : true,
+        isEnd : false,
+        isVisible : false
     }
 
     componentDidMount() {
@@ -31,13 +33,17 @@ class Game extends React.Component{
                     isLoading : false
                 }))
                 this.sendMessage({
-                    userId : USER_ID
+                    userId : USER_ID,
+                    projectId : PROJECT_ID
                 })
             };
 
             this.websocket.onmessage = (message) => {
                 if(message.data === "done"){
-                    this.props.action();
+                    this.setState(({
+                        isEnd : true,
+                        isVisible : true
+                    }))
                 }else{
                     let frame = JSON.parse(message.data).frame;
                     this.setState(prevState => ({
@@ -68,6 +74,19 @@ class Game extends React.Component{
     componentWillUnmount() {
         clearTimeout(this.timer);
     }
+
+    handleOk = e => {
+        this.setState({
+          isVisible : false
+        });
+        this.props.action()
+      };
+    
+    handleCancel = e => {
+        this.setState({
+            isVisible : false
+        });
+    };
 
     sendMessage = (data) => {
         if(this.state.isLoading){
@@ -124,7 +143,7 @@ class Game extends React.Component{
     }
 
     render() {
-        const {isLoading, frameSrc, isStart, frameRate} = this.state;
+        const {isLoading, frameSrc, isStart, frameRate, isEnd} = this.state;
         return (
             <div>
                 <div className="gameWindow">
@@ -133,6 +152,16 @@ class Game extends React.Component{
                     : <img className="gameContent" src={frameSrc} alt="frame" width="700px" height="600px" />
                     }
                 </div>
+                <Modal
+                    title="Game end message"
+                    visible={this.state.isVisible}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                    >
+                    <p>The game has ended</p>
+                    <p>Press <b>Cancel</b> to stay on this page</p>
+                    <p>Press <b>OK</b> to move to next step</p>
+                </Modal>
 
                 <div className="controlPanel">
                     <table className="panelContainer" cellSpacing="0" cellPadding="6">
@@ -186,6 +215,11 @@ class Game extends React.Component{
                                     <Tooltip placement="bottom" title="Decrease the FPS" arrowPointAtCenter>
                                         <Button shape="round" size="large" icon={<DownOutlined />} onClick={() => this.handleFPS("slower")}/>
                                     </Tooltip>
+                                </td>
+                                <td>{isEnd ? 
+                                    <Tooltip placement="bottom" title="Move to next step" arrowPointAtCenter>
+                                        <Button type="primary" shape="round" size="large" icon={<SendOutlined />} onClick={this.handleOk}>Next</Button>
+                                    </Tooltip> : null}
                                 </td>
                             </tr>
                         </tbody>

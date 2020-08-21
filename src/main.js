@@ -112,7 +112,7 @@ class Main extends React.Component{
                         </div>
                             
         return (
-            <div>
+            <div className="mainContainer">
                 <Header />
                 {!isGame ? preGame : <Game action={this.gameEndHandler} />}
                 <Footer />
