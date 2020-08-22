@@ -26,6 +26,25 @@ You need to install the following software:
 
 * npm
 
+### Dependencies
+
+* react 
+> The main Javascript library we are using for building user interfaces.
+* react-device-detect
+> npm package that used to detect the type of device of user for better user experience
+* react-html-parser
+> npm package that used to convert HTML strings into React components. Avoids the use of dangerouslySetInnerHTML and converts standard HTML elements, attributes and inline styles into their React equivalents.
+* react-router
+> npm package that used to provide routing in React
+* antd
+> Ant-design is an enterprise-class UI design language and React UI library.Most of our framework's UI design based on this library.
+* websocket
+> npm package that used to build web-socket connection with our backend server. We are relying on web-socket to receive the game frames and communicating between the front end and the back end.
+* axios
+> npm package that used to send GET and POST request to our api endpoints
+* uuid
+> npm package used to generate uuid(universally unique identifier). We use uuidv4 in our project as the userId to identify each user uniquelly.
+
 ### Clone
 
 * Clone this repo to your local machine using `git clone https://github.com/IRLL-Org/RL_framework_frontend.git`
