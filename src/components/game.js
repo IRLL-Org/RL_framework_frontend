@@ -54,6 +54,14 @@ class Game extends React.Component{
                     }));
                 }
             };
+
+            this.websocket.onclose = () => {
+                console.log('WebSocket Client Closed');
+                this.setState(({
+                    isEnd : true,
+                    isVisible : true
+                }))
+            }
         }, 30000);
 
         document.addEventListener('keydown', (event) => {
@@ -61,14 +69,6 @@ class Game extends React.Component{
                 event.preventDefault();
             }
             this.sendMessage(getKeyInput(event.code));
-        })
-
-        document.addEventListener('mousedown',(event) => {
-            this.sendMessage({
-                eventType : "mousedown",
-                xCoord : event.offsetX,
-                yCoord : event.offsetY
-            })
         })
     }
 
@@ -86,10 +86,6 @@ class Game extends React.Component{
     };
 
     sendMessage = (data) => {
-        if(this.state.isLoading){
-            message.error("Please wait the connection to be established first!")
-            return;
-        }
         const allData = {
             ...data,
             frameCount : this.state.frameCount,
@@ -98,7 +94,11 @@ class Game extends React.Component{
         this.websocket.send(JSON.stringify(allData));
     }
 
-    handleStart(status){
+    handleCommand(status){
+        if(this.state.isLoading){
+            message.error("Please wait the connection to be established first!")
+            return;
+        }
         if(status === "start"){
             this.sendMessage({
                 command : status,
@@ -106,7 +106,6 @@ class Game extends React.Component{
                 systemVersion : osVersion,
                 browser : browserName,
                 browserVersion : browserVersion,
-
             })
             this.setState(prevState => ({
                 isStart : !prevState.isStart
@@ -169,12 +168,12 @@ class Game extends React.Component{
                                 <Button shape="round" size="large" icon={<ArrowUpOutlined />} onClick={() => this.sendMessage({actionType : "mousedonw",action : "up"})}/>
                             </Tooltip></Col>
                         <Col span={6} >
-                        {isStart ? <Button shape="round" type="danger" icon={<PauseOutlined  />} size='large' onClick={() => this.handleStart("pause")}>Pause</Button> 
-                            : <Button shape="round" type="primary"  icon={<CaretRightOutlined />} size='large' onClick={() => this.handleStart("start")}>Start</Button>
+                        {isStart ? <Button shape="round" type="danger" icon={<PauseOutlined  />} size='large' onClick={() => this.handleCommand("pause")}>Pause</Button> 
+                            : <Button shape="round" type="primary"  icon={<CaretRightOutlined />} size='large' onClick={() => this.handleCommand("start")}>Start</Button>
                         }
                         </Col>
-                        <Col span={6} ><Button shape="round" type="danger" icon={<StopOutlined  />} size='large' onClick={() => this.handleStart("stop")}>Stop</Button></Col>
-                        <Col span={4} ><Button shape="round" type="primary" className="resetButton"  icon={<ReloadOutlined />} size='large' onClick={() => this.handleStart("reset")}>Reset</Button></Col>
+                        <Col span={6} ><Button shape="round" type="danger" icon={<StopOutlined  />} size='large' onClick={() => this.handleCommand("stop")}>Stop</Button></Col>
+                        <Col span={4} ><Button shape="round" type="primary" className="resetButton"  icon={<ReloadOutlined />} size='large' onClick={() => this.handleCommand("reset")}>Reset</Button></Col>
                     </Row>
                     <Row gutter={[4, 8]}>
                         <Col span={4} >
@@ -186,8 +185,8 @@ class Game extends React.Component{
                             <Tooltip placement="top" title="Move Right" arrowPointAtCenter>
                                 <Button shape="round" size="large" icon={<ArrowRightOutlined />} onClick={() => this.sendMessage({actionType : "mousedown" , action : "right"})}/>
                             </Tooltip></Col>
-                        <Col span={6} ><Button className="onlineButton" shape="round" icon={<CloudUploadOutlined />} type="primary" size='large' onClick={() => this.handleStart("trainOffline")}>Train Online</Button></Col>
-                        <Col span={6} ><Button className="offlineButton" shape="round" type="primary" size='large' icon={<CloudDownloadOutlined />} onClick={() => this.handleStart("trainOnline")}>Train Offline</Button></Col>
+                        <Col span={6} ><Button className="onlineButton" shape="round" icon={<CloudUploadOutlined />} type="primary" size='large' onClick={() => this.handleCommand("trainOffline")}>Train Online</Button></Col>
+                        <Col span={6} ><Button className="offlineButton" shape="round" type="primary" size='large' icon={<CloudDownloadOutlined />} onClick={() => this.handleCommand("trainOnline")}>Train Offline</Button></Col>
                     </Row>
                     <Row gutter={[4,8]}>
                         <Col span={2} />
