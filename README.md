@@ -13,6 +13,9 @@ What our framework can do
 * Allow a person to go forward and backward in time to provide human guidance at different points in previous trajectories
 * Be compatible with at least 3 tasks implemented in OpenAI gym.
 
+How it works
+===============
+
 Getting started
 ===============
 
@@ -49,7 +52,38 @@ You need to install the following software:
 
 * Clone this repo to your local machine using `git clone https://github.com/IRLL-Org/RL_framework_frontend.git`
 
-### Setup
+### Structure
+    
+[main.js](./src/main.js)
+```javascript
+fetchFormData()
+```
+Function used to send **GET** request to our api endpoint and receive the contents of pre-game and post-game pages.
+```javascript
+gameEndHandler()
+```
+Function used to set the game state to be end and request the content of next page.
+```javascript
+handleSubmit(event)
+```
+Function used to handle the form data after the user click the "Submit" button. This function will send POST request to the back end and set the response as the content of the next page.
+
+[Routes.js](./src/Routes.js)
+A router used to manage all the routes of our framework. Currently, we only have one route which is the root one("/"). In the future, we may introduce more routes to our framework.
+
+[forum.js](./src/components/forum.js)
+Forum component, used to render the html contents that fetched from the back end and a "Submit" button to submit the form's data.
+
+[game.js](./src/components/game.js)
+Game componet that include all the elements that needed to play the game on the web. In this component, we are using websocket to communicate with our back end server, which makes our framework real time. There are two main parts in this component, the first is the game window. We render every game frames that received from the web socket in this window. The second part is the game control panel, we have 4 directions button and buttons to start, stop and stop the game, etc.
+
+[header.js](./src/components/header.js)v
+Header component that will be rendered on every pages of our framework. We only have a irll logo for now.
+
+[footer.js](./src/components/footer.js)
+Footer component that will be rendered on every pages of our framework. We have logos for ualberta and amii.
+
+#### Setup
 
 > Install the package for frontend 
 
