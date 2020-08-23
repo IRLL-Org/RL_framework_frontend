@@ -38,7 +38,7 @@ You need to install the following software:
 * react-html-parser
 > npm package that used to convert HTML strings into React components. Avoids the use of dangerouslySetInnerHTML and converts standard HTML elements, attributes and inline styles into their React equivalents.
 * react-router
-> npm package that used to provide routing in React
+> npm package that used to provide routing in React.
 * antd
 > Ant-design is an enterprise-class UI design language and React UI library.Most of our framework's UI design based on this library.
 * websocket
@@ -58,7 +58,7 @@ You need to install the following software:
 ```javascript
 fetchFormData()
 ```
-Function used to send **GET** request to our api endpoint and receive the contents of pre-game and post-game pages.
+Function used to send **GET** requests to our api endpoint and receive the html contents of pre-game and post-game pages.
 ```javascript
 gameEndHandler()
 ```
@@ -66,13 +66,13 @@ Function used to set the game state to be end and request the content of next pa
 ```javascript
 handleSubmit(event)
 ```
-Function used to handle the form data after the user click the "Submit" button. This function will send POST request to the back end and set the response as the content of the next page.
+Function used to handle the form data after the user click the "Submit" button. This function will send POST requests to the back end and set the response as the content of the next page.
 
 [Routes.js](./src/Routes.js)
 A router used to manage all the routes of our framework. Currently, we only have one route which is the root one("/"). In the future, we may introduce more routes to our framework.
 
 [forum.js](./src/components/forum.js)
-Forum component, used to render the html contents that fetched from the back end and a "Submit" button to submit the form's data.
+Forum component, used to render the html contents that fetched from the back end and includes a "Submit" button to submit the form's data.
 
 [game.js](./src/components/game.js)
 Game componet that include all the elements that needed to play the game on the web. In this component, we are using websocket to communicate with our back end server, which makes our framework real time. There are two main parts in this component, the first is the game window. We render every game frames that received from the web socket in this window. The second part is the game control panel, we have 4 directions button and buttons to start, stop and stop the game, etc.
@@ -80,7 +80,7 @@ Game componet that include all the elements that needed to play the game on the 
 handleOk()
 handleCancel()
 ```
-Functions used to handle the visibility of the confirmation model.
+Functions used to handle the visibility of the confirmation model.By default, the model does not appear, it is visible to the user when the game ends.
 ```javascript
 sendMessage(data)
 ```
@@ -92,9 +92,9 @@ Function used to send essential game control commands to the websocket server. T
 ```javascript
 handleFPS(speed)
 ```
-Function used to control the FPS(frame per second) of the game. The default value is 30 and the increment or the decrement of neach time the user press the button is 5. The allowed range of the FPS is between 5 - 90 for now.
+Function used to control the FPS(frame per second) of the game. The default value is 30 and the increment or the decrement of each time the user press the button is 5. The allowed range of the FPS is between 5 - 90 for now.
 
-[header.js](./src/components/header.js)v
+[header.js](./src/components/header.js)
 Header component that will be rendered on every pages of our framework. We only have a irll logo for now.
 
 [footer.js](./src/components/footer.js)
