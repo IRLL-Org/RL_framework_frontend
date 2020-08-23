@@ -76,6 +76,23 @@ Forum component, used to render the html contents that fetched from the back end
 
 [game.js](./src/components/game.js)
 Game componet that include all the elements that needed to play the game on the web. In this component, we are using websocket to communicate with our back end server, which makes our framework real time. There are two main parts in this component, the first is the game window. We render every game frames that received from the web socket in this window. The second part is the game control panel, we have 4 directions button and buttons to start, stop and stop the game, etc.
+```javascript
+handleOk()
+handleCancel()
+```
+Functions used to handle the visibility of the confirmation model.
+```javascript
+sendMessage(data)
+```
+Function used to send data to the websocket server in JSON format.
+```javascript
+handleCommand(status)
+```
+Function used to send essential game control commands to the websocket server. The commands we have are : start,pause,stop and reset, etc.
+```javascript
+handleFPS(speed)
+```
+Function used to control the FPS(frame per second) of the game. The default value is 30 and the increment or the decrement of neach time the user press the button is 5. The allowed range of the FPS is between 5 - 90 for now.
 
 [header.js](./src/components/header.js)v
 Header component that will be rendered on every pages of our framework. We only have a irll logo for now.
