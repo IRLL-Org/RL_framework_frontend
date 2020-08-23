@@ -1,3 +1,4 @@
+//utility function used to listen user's keyboard inputs
 function getKeyInput(code) {
     switch(code) {
         case "KeyS": return({

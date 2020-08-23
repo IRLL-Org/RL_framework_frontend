@@ -25,7 +25,11 @@ class Game extends React.Component{
 
     componentDidMount() {
 
+        //To ensure the websocket server is ready to connect
+        //we try to connect the webscoket server periodically
+        //for every 30 seconds until the connection has been established
         this.timer = setInterval(() => {
+            //connect the websocket server
             this.websocket = new W3CWebSocket(WS_URL);
             this.websocket.onopen = () => {
                 clearTimeout(this.timer);
@@ -39,12 +43,15 @@ class Game extends React.Component{
                 })
             };
 
+            //listen to the data from the websocket server
             this.websocket.onmessage = (message) => {
+                //"done" means the game has ended
                 if(message.data === "done"){
                     this.setState(({
                         isEnd : true,
                         isVisible : true
                     }))
+                //parse the data from the websocket server
                 }else{
                     let frame = JSON.parse(message.data).frame;
                     this.setState(prevState => ({
@@ -55,6 +62,7 @@ class Game extends React.Component{
                 }
             };
 
+            //listen to the websocket closing status
             this.websocket.onclose = () => {
                 console.log('WebSocket Client Closed');
                 this.setState(({
@@ -64,6 +72,7 @@ class Game extends React.Component{
             }
         }, 30000);
 
+        //listen to the user's keyboard inputs
         document.addEventListener('keydown', (event) => {
             if([37, 38, 39, 40].indexOf(event.keyCode) > -1) {
                 event.preventDefault();
@@ -72,6 +81,8 @@ class Game extends React.Component{
         })
     }
 
+    //change the confirmation modal to be invisible
+    //navigate to the post-game page
     handleOk = e => {
         this.setState({
           isVisible : false
@@ -79,12 +90,15 @@ class Game extends React.Component{
         this.props.action()
       };
     
+    //change the confirmation modal to be invisible
+    //stay on the game page
     handleCancel = e => {
         this.setState({
             isVisible : false
         });
     };
 
+    //send data to websocket server in JSON format
     sendMessage = (data) => {
         const allData = {
             ...data,
@@ -94,6 +108,7 @@ class Game extends React.Component{
         this.websocket.send(JSON.stringify(allData));
     }
 
+    //send game control commands to the websocket server
     handleCommand(status){
         if(this.state.isLoading){
             message.error("Please wait the connection to be established first!")
@@ -125,6 +140,7 @@ class Game extends React.Component{
         }   
     }
 
+    //chnage the FPS of the game
     handleFPS(speed){
         if((speed === "faster" && this.state.frameRate + 5 > 90) || (speed === "slower" && this.state.frameRate - 5 < 1)){
             message.error("Invalid FPS, the FPS can only between 1 - 90!")

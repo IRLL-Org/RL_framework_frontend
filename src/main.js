@@ -12,19 +12,21 @@ import {RLAPI, PROJECT_ID, USER_ID} from './utils/constants';
 class Main extends React.Component{
 
     state = {
-        formContent : "",
+        formContent : "",        //html content
         userId : USER_ID,
         projectId : PROJECT_ID,
-        isLoading : true,
-        isGame : false,
-        isWait : false,
-        isEnd : false,
+        isLoading : true,        //used to wait for http requests finished
+        isGame : false,          //if current page is the game page
+        isWait : false,          //if the websocket server has been resolved
+        isEnd : false,           //if the game is ended
     }
 
     componentDidMount(){
         this.fetchFormData();
     }
 
+    //send GET requests to api endpoint
+    //fetch html content of each page
     fetchFormData = () => {
         axios.get(RLAPI,{
             params : {
@@ -32,11 +34,13 @@ class Main extends React.Component{
                 userId : this.state.userId
             }
         }).then(res => {
+            //"show_game_page" means the next page will be the game page
             if(res.data === "show_game_page"){
                 this.setState(({
                     isGame : true,
                     isWait : false
                 }))
+            //"wait" means the websocket's DNS has not been resolved yet
             }else if(res.data !== "wait"){
                 this.setState(({
                     formContent : res.data,
@@ -47,10 +51,12 @@ class Main extends React.Component{
     }
 
     gameEndHandler = () =>{
+        //change the game status
         this.setState(({
             isGame : false,
             isEnd : true
         }))
+        //fetch the content of next page
         this.fetchFormData();
     }
 
@@ -58,23 +64,31 @@ class Main extends React.Component{
         this.setState(({
             isLoading : true
         }))
+
+        //collect the user's input from the forum
         const form = event.target;
         const data = {}
         for (let element of form.elements) {
           if (element.tagName === 'BUTTON') { continue; }
           data[element.name] = element.value;
         }
+
+        //submit the user's input by sending the POST requests
         axios.post(RLAPI,data,{
             params : {
                 projectId : this.state.projectId,
                 userId : this.state.userId
             }
         }).then(res => {
+            //"show_game_page" means the websocket's DNS has been resolved
+            //ready to go to the game page
             if(res.data === "show_game_page"){
                 this.setState(({
                     isGame : true,
                 }))
             }else if(res.data === "wait"){
+                //we check if the websocket's DNS has been resolved periodically
+                //for every 30 seconds 
                 this.wait = setInterval(() => {
                     if(!this.state.isGame){
                         this.fetchFormData();
