@@ -8,8 +8,8 @@ class Header extends React.Component{
     render(){
         return (
             <header>
-                <a className="irllLogo" href="https://irll.ca/" >
-                    <img src={process.env.PUBLIC_URL + '/irll-logo.png'} alt="irll-logo" width="276" height="150"/>
+                <a className="irllLogo" href="https://irll.ca/" target="_blank" rel="noopener noreferrer">
+                    <img src={process.env.PUBLIC_URL + '/irll-logo.png'}  alt="irll-logo" width="276" height="150"/>
                 </a>
                 <Divider />
             </header>
