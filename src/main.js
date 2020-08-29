@@ -2,7 +2,7 @@ import React from 'react';
 import "antd/dist/antd.css";
 import './main.css';
 import axios from 'axios';
-import {Spin} from 'antd';
+import {Spin, message} from 'antd';
 import Header from './components/header';
 import Footer from './components/footer';
 import Forum from './components/forum';
@@ -18,7 +18,8 @@ class Main extends React.Component{
         isLoading : true,        //used to wait for http requests finished
         isGame : false,          //if current page is the game page
         isWait : false,          //if the websocket server has been resolved
-        isEnd : false,           //if the game is ended
+        isEnd : false,           //if the game is ended,
+        ifError : false,
     }
 
     componentDidMount(){
@@ -46,6 +47,16 @@ class Main extends React.Component{
                     formContent : res.data,
                     isLoading : false
                 }))
+            }
+        }).catch((error) => {
+            this.setState(({
+                isLoading : false,
+                isError : true
+            }));
+            if(error.response){
+                if (error.response.status === 400){
+                    message.error(`The projectId is not valid or does not exist, please try again!`,5)
+                }
             }
         })
     }
@@ -103,9 +114,13 @@ class Main extends React.Component{
                     isLoading : false
                 }))
             }
-        }).catch(function (error) {
-            console.log(error)
-          });
+        }).catch((error) => {
+            if(error.response){
+                if (error.response.status === 400){
+                    message.error(`The projectId is not valid or does not exist, please try again!`,5)
+                }
+            }
+        });
     }
 
     componentWillUnmount(){
@@ -113,15 +128,15 @@ class Main extends React.Component{
     }
 
     render(){
-        const {isLoading,formContent,isGame,isWait, isEnd} = this.state;
+        const {isLoading,formContent,isGame,isWait, isEnd, isError} = this.state;
 
         const preGame = <div className="forumContainer">
-                            {isLoading ? 
+                            {isLoading && !isError ? 
                             <Spin className="Loader" size = "large" tip={isWait ?  
                                 "Waitting for the robot to wake up, please wait ..." :
                                 "Loading next step, please wait ..."} 
                             /> :
-                            <Forum content={formContent} action={this.handleSubmit} isEnd={isEnd}/> 
+                            <Forum content={formContent} action={this.handleSubmit} isEnd={isEnd} isError={isError}/> 
                             }
                         </div>
                             
