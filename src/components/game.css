@@ -23,7 +23,7 @@
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
-    width: 700px;
+    width: 800px;
 }
 
 .panelContainer{
@@ -63,6 +63,28 @@
     background-color: #36cfc9;
     border-color: #36cfc9;
 
+}
+
+.goodButton{
+    background-color: #fadb14;
+    color : white;
+    border-color: #fadb14;
+}
+
+.goodButton:hover{
+    background-color: #ffec3d;
+    border-color: #ffec3d;
+}
+
+.badButton{
+    background-color: #a0d911;
+    color : white;
+    border-color: #a0d911;
+}
+
+.badButton:hover{
+    background-color: #bae637;
+    border-color: #bae637;
 }
 
 .fpsInput{
